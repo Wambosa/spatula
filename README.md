@@ -69,7 +69,8 @@ make lint
 ```
 
 
-## Deploy Overview _(Not implemented, will be done in sprint X story SPAT-4567)_
+## Deploy Overview 
+_(Not implemented, will be done in sprint X story SPAT-4567)_
 Manual deploys are possible directly from the command line if the appropriate permissions are configured.
 
 ```
@@ -90,14 +91,6 @@ make build deploy TARGET=ecs ENV=lab
 
 These commands can be easily wired up to a CI/CD pipeline.
 The builds and deploys can be triggered by events specified by the team _(on push, on merge to master, on tag, etc)_.
-
-
-### Contributing
-_Changing the system, adding a new method or updating an existing method._
-
-1. Tests should be invoked with `make test` after changes.
-2. A test runner can be activated with `make watch`.
-3. Run `make lint` before push and fix any hangups. _(ci/cd will catch it if you dont)_.
 
 
 -----
