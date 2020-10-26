@@ -18,26 +18,16 @@ def run(event, context):
 
   print(f'Target with shape {shape} will be gathered using protocol {protocol}: {target}')
 
-  # Step 3
-  # scrape/extract from target
   print('Step 3:: scrape/extract from target')
   extract_func = getattr(context.extract, protocol)
   raw = extract_func(target)
 
-  # Step 4
-  # Store backup/snapshot of crawl at timestamp
-  # future: implement this as a part of sprint Z story SPAT-567567
   print('Step 4:: backup/snapshot')
 
-  # Step 5
-  # Apply parsing logic
-  # Extract desired features
   print('Step 5:: parse')
   transform_func = getattr(transform, shape)
   records = transform_func(raw)
 
-  # Step 6
-  # save/export
   print(f'Step 6:: saving {len(records)}')
   prepare_func = getattr(transform, f'mysql_{shape}')
   insert_statement = context.var.insert_statement
@@ -61,6 +51,5 @@ def run(event, context):
           r['post_body']
         ])
 
-  # save to file if param defined
   print('done')
   return records
