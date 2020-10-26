@@ -8,7 +8,6 @@ _A web scraping system. Named by Lori Diaz whilst watching Great British Bake-of
 * [Running Local](#running-local)
 * [Test Overview](#test-overview)
 * [Deploy Overview](#deploy-overview)
-* [Contributing](#contributing)
 
 -----
 
