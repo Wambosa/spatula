@@ -36,8 +36,9 @@ make install
 make shim
 ```
 
-Calling `make run` will rebuild the target script in the `.build/` direectory, 
+Calling `make run` will rebuild the `FUNC` script in the `.build/` directory, 
 and execute the `main.py` with any provided run arguments.
+_(This is done in preparation of a deployment strategy where this code may be reused homogeneously as a lambda, docker container, or local script as seen here.)_
 
 ```
 make run FUNC=scrape RUN_ARGS=' \
@@ -54,6 +55,9 @@ make run FUNC=scrape RUN_ARGS=' \
 --out_file=../../thread.csv
 '
 ```
+
+![c4 context](./docs/demo.gif)
+
 
 ## Test Overview
 Before running tests, ensure that the proper system requirements are met. 
@@ -147,5 +151,6 @@ _given more time_
   - deal with pytest warnings
   - more obvious ready-state for successfully run `make shim`
     - currently when done, it just waits and logs activity, no setup confirm message.
+  - fix the demo recording to crop all the extra blank space
 
 -----

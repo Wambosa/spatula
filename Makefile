@@ -1,4 +1,4 @@
-.PHONY: install lint test build deploy shim sanity_check run watch prepare_zip prepare_zip_lambda prepare_zip_container register_container prepare_zip_layer find_distinct_concept terraform clean circleci
+.PHONY: install lint test build deploy shim run prepare_zip prepare_zip_container find_distinct_concept terraform clean circleci
 
 PROJECT            := spatula
 PREFIX             := spat
