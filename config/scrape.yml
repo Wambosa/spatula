@@ -1,0 +1,13 @@
+---
+
+newline: "\n"
+
+delimiter: ","
+
+db_name: optimal
+
+insert_statement: >-
+  INSERT INTO `posts`
+    (`post_id`, `name`, `post_date`, `post_body`)
+  VALUES
+    (%s, %s, %s, %s);

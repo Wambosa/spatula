@@ -1,0 +1,22 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[requires]
+python_version = "3.7"
+
+[packages]
+arrow = "*"
+python-box = "3.2.4"
+pymysql= "0.9.3"
+pyyaml = "5.1"
+simplejson = "*"
+configargparse = "0.14.0"
+requests = "*"
+beautifulsoup4 = "*"
+
+[dev-packages]
+pytest = "5.2.1"
+boto3  = "1.9.250"
+pylint = "2.3.1"

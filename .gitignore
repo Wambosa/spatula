@@ -1,0 +1,9 @@
+terraform
+.terraform
+*.tfstate
+*.backup
+
+.build
+*.env
+__pycache__
+*.csv
