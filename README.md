@@ -101,17 +101,6 @@ The builds and deploys can be triggered by events specified by the team _(on pus
 
 ### Optional Dependency install tips
 
-pyenv+awscli
-```
-curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-
-...(configure your shell)...
-
-pyenv virtualenv 3.7.0 example
-pyenv activate example
-make install
-```
-
 docker-compose
 ```
 sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose \
