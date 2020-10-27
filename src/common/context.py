@@ -8,8 +8,10 @@ import os
 import yaml
 import boto3
 from box import Box
-from lib.rds import Aurora
+
 from lib import extract
+from lib import serialize
+from lib.rds import Aurora
 
 class CustomContext:
   '''
@@ -32,22 +34,25 @@ class CustomContext:
       endpoint_url=self.var.get('s3_endpoint')
     )
 
-    self.extract = extract
-
     self.rds = None
+    self.extract = extract
+    self.serialize = serialize
 
   def __enter__(self):
-    self.rds = Aurora(
-      host=self.var.db_host,
-      port=int(self.var.db_port),
-      db=self.var.db_name,
-      user=self.var.db_user,
-      password=self.var.db_pass
-    ).__enter__()
+    if not self.var.skip_db:
+      self.rds = Aurora(
+        host=self.var.db_host,
+        port=int(self.var.db_port),
+        db=self.var.db_name,
+        user=self.var.db_user,
+        password=self.var.db_pass
+      ).__enter__()
     return self
 
   def __exit__(self, _type, _value, _traceback):
-    return self.rds.conn.close()
+    if self.rds:
+      self.rds.conn.close()
+    return self
 
 
 def load_env():

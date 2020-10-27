@@ -10,9 +10,10 @@ from lib import clean
 
 SERIALIZED_TIMESTAMP = 'YYYY-MM-DD HH:mm:ss'
 
+PHP_BB_BODY_DEPTH = 15
 PHP_BB_ID = re.compile('.*name=\"(?P<post_id>\d{5,})\".*')
 PHP_BB_NAME = re.compile('.*\<b\>(?P<user_name>.*)\<\/b\>.*')
-PHP_BB_DATE = re.compile('^Posted:\s\w\w\w\s(?P<post_date>\w\w\w\s\d\d\,\s\d\d\d\d\s\d.*m)')
+PHP_BB_DATE = re.compile('^Posted:\s\w\w\w\s(?P<post_date>\w\w\w\s\d\d\,\s\d\d\d\d\s(\d|:){3,5}\s\wm)')
 PHP_BB_DATE_PARSE = 'MMM DD, YYYY H:mm A'
 
 '''
@@ -23,8 +24,8 @@ PHP_BB_DATE_PARSE = 'MMM DD, YYYY H:mm A'
   We should instead ammend the features we extract to include a quote_id which would reference another post_id.
   This can be a future part of sprint N story SPAT-556789.
 '''
-def php_bb(raw: str, parser = 'html.parser') -> []:
-  soup = BeautifulSoup(raw, parser)
+def php_bb(raw: str, encoding='utf-8', parser = 'html.parser') -> []:
+  soup = BeautifulSoup(raw, parser, from_encoding = encoding)
 
   whos = [ str(info) for info in soup.find_all('span', 'name') ]
   whos_length = len(whos)
@@ -34,17 +35,20 @@ def php_bb(raw: str, parser = 'html.parser') -> []:
 
   # NOTE: B
   # this line causes the quoted section to be omitted
-  whats = [span.text for span in soup.find_all('span', 'postbody') if span.contents]
+  is_original = lambda el: el.contents and len(list(el.parents)) == PHP_BB_BODY_DEPTH
+
+  whats = [span.text for span in soup.find_all('span', 'postbody') if is_original(span)]
+  whats = list(filter(lambda w: len(w), map(clean.php_bb_post, whats)))
   whats_length = len(whats)
 
-  print(f'NAME/ID: {whos_length}')
+  print(f'NAME: {whos_length}')
   print(f'DATE: {whens_length}')
   print(f'BODY: {whats_length}')
 
   all_equal = whos_length == whens_length and  whos_length == whats_length
 
   if not all_equal:
-    raise 'transform.php_bb feature count mismatch, number of posters does not match post content.'
+    raise 'transform.php_bb feature count mismatch, number of posts does not match post content.'
 
   records = []
   for i in range(whos_length):
@@ -52,7 +56,7 @@ def php_bb(raw: str, parser = 'html.parser') -> []:
     name = PHP_BB_NAME.match(whos[i]).group('user_name')
     post_date = PHP_BB_DATE.match(whens[i]).group('post_date')
     timestamp = arrow.get(post_date, PHP_BB_DATE_PARSE).format(SERIALIZED_TIMESTAMP)
-    post_body = clean.php_bb_post(whats[i])
+    post_body = whats[i]
 
     records.append({
       'post_id': post_id,

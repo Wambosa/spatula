@@ -1,12 +1,10 @@
-.PHONY: install lint test build deploy shim run prepare_zip prepare_zip_container find_distinct_concept terraform clean circleci
+.PHONY: install lint test build deploy shim run prepare_zip prepare_zip_container find_distinct_concept terraform clean python_package_manager
 
 PROJECT            := spatula
 PREFIX             := spat
 EXT                := py
 TF_VER             := 0.12.12
 BUILD_LOCAL_DIR    := .build
-BUILD_LAMBDA_DIR   := ./infra/lambda/.build
-BUILD_LAYER_DIR    := ./infra/layer/.build/layer/python/lib/python3.7/site-packages
 
 # 
 # Common Repositry Activities
@@ -32,8 +30,7 @@ test:
 # Local development
 # 
 
-# standup some fake resources to target for isolated realtime testing
-# note: this particular version of the command will steal one console window
+# standup some fake resources to target for isolated realtime integration testing
 shim:
 	@docker-compose -f ./tests/docker-compose.yml up --build
 
@@ -79,9 +76,7 @@ terraform:
 	&& mv ./terraform ${BUILD_LOCAL_DIR}/terraform
 
 clean:
-	@rm -rf ${BUILD_LAMBDA_DIR} ;\
-	rm -rf ${BUILD_LAYER_DIR} ;\
-	find ${BUILD_LOCAL_DIR}/* \! -name 'terraform' -delete ;\
+	@find ${BUILD_LOCAL_DIR}/* \! -name 'terraform' -delete ;\
 	find . -name '__pycache__' -exec rm -rf "{}" \; > /dev/null 2>&1 ;
 
 python_package_manager:

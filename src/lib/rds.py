@@ -33,7 +33,7 @@ class Aurora:
   def __exit__(self, _type, _value, _traceback):
     return self.conn.close()
 
-  def executemany(self, sql, record_list):
+  def executemany(self, sql: str, record_list: []):
     '''
     Run a complex write query.
 
@@ -56,7 +56,7 @@ class Aurora:
       self.conn.commit()
     return cursor
 
-  def select(self, sql, itersize=100):
+  def select(self, sql: str, itersize=100):
     '''
     Read from database in configured chunks (itersize).
 

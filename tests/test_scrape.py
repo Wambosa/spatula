@@ -11,7 +11,7 @@ from context import UnitContext
 class GIVEN_known_html_target(unittest.TestCase):
   def test_WHEN_executing_scrape_flow_THEN_expect_minimum_features_within_records(self):
     event = {
-      'target': 'fake-target-for-unit',
+      'targets': '["https://fake-target-for-unit.com"]',
       'extract': 'html',
       'transform': 'php_bb'
     }
