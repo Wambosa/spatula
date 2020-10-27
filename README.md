@@ -135,7 +135,7 @@ The builds and deploys can be triggered by events specified by the team _(on pus
 ---------------------------
 ### Dependency Install Tips
 _For the purposes of the code-challenge, I have created a swift set of commands to get this up and running on an ubuntu 18 machine.
-Apple and/or windows support is not availible at this time (though it may possibly work on apple's bash out of the box)._
+Apple and/or windows support is not available at this time (though it may possibly work on apple's bash out of the box)._
 
 docker-compose
 ```
