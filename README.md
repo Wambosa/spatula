@@ -63,7 +63,8 @@ _(This is done in preparation of a deployment strategy where this code may be re
 _Note that this command requires a database to be up.
 Sane parameters are already specified below.
 `make shim` stands up the complex dependencies for you.
-If you wish for a just the code-challenge minimum requirements, see the next example ["Chunked unit of work example"](chunked-unit-of-work-example)._
+If you wish for just the code-challenge minimum requirements,
+see the next example ["Chunked unit of work example"](#chunked-unit-of-work-example)._
 
 ![c4 context](./docs/demo.gif)
 
