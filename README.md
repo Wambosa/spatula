@@ -17,16 +17,19 @@ _A scraping system. Named by Lori Diaz whilst watching Great British Bake-off._
 
 ### Context
 _The high level view of this system._
+
 ![c4 context](./docs/c4-context.svg)
 ------------------------------------
 
 ### Container
 _We've zoomed into the dark blue "Spatula" box from the previous "context" diagram._
+
 ![c4 container](./docs/c4-container.svg)
 ----------------------------------------
 
 ### Container _(Scoped)_
 _The scope of this code-challenge._
+
 ![c4 container scoped](./docs/c4-container-scoped.svg)
 ------------------------------------------------------
 
