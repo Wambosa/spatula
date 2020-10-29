@@ -26,25 +26,15 @@ These are especially useful for localized integration testing.
 An example will be provided that utilizes a complex dependency (database), but is not required._
 
 - Ubuntu 18.x
+  - _Tested on Mojave 10.14.2 as well_
 - pipenv
+  - _the apple install command will also install pyenv_
 - docker _(optional)_
 - docker-compose _(optional)_
 
-#### Don't like Ubuntu?
-_Though its terribly cost effective to run on ubuntu, here is an alternative command to run on your $Nk apple locally :p_  
-_Tested on Mojave 10.14.2_
-
-```
-make install_apple
-```
 
 #### Love Windows or RedHat for development?
-_See Story 123 Sprint N for implementation_
-
-_future command_
-```
-make pain
-```
+_See Story 123 Sprint N for implementation. Future command `make pain`._
 
 
 ## Unit Test Overview
