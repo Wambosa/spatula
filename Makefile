@@ -1,4 +1,4 @@
-.PHONY: info install install_ubuntu install_apple lint test build deploy shim run prepare_zip prepare_zip_container find_distinct_concept clean python_package_manager
+.PHONY: info install install_ubuntu install_apple lint test build deploy shim run prepare_zip prepare_zip_container find_distinct_concept python_package_manager
 
 PROJECT            := spatula
 PREFIX             := spat
@@ -26,7 +26,6 @@ endif
 install_ubuntu:
 	@make -s python_package_manager \
 	&& mkdir -p ${BUILD_LOCAL_DIR} \
-	&& make -s clean \
 	&& pipenv install --dev \
 	&& pipenv run python --version
 
@@ -34,7 +33,6 @@ install_apple:
 	@brew install pyenv \
 	&& brew install pipenv \
 	&& mkdir -p ${BUILD_LOCAL_DIR} \
-	&& make -s clean \
 	&& pipenv install --dev \
 	&& pipenv run python --version
 
@@ -81,9 +79,6 @@ prepare_zip_container:
 	for name in $$CONTAINERS ; do \
 		make -s prepare_zip NAME=$$name WRAPPER=local_wrapper.${EXT} BUILD_DIR=${BUILD_LOCAL_DIR} ;\
 	done
-
-clean:
-	@find . -name '.pytest_cache' -exec rm -rf "{}" \; > /dev/null 2>&1
 
 python_package_manager:
 	@echo "installing pipenv"
