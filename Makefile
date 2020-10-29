@@ -1,10 +1,11 @@
-.PHONY: info install lint test build deploy shim run prepare_zip prepare_zip_container find_distinct_concept terraform clean python_package_manager
+.PHONY: info install install_ubuntu install_apple lint test build deploy shim run prepare_zip prepare_zip_container find_distinct_concept clean python_package_manager
 
 PROJECT            := spatula
 PREFIX             := spat
 EXT                := py
 TF_VER             := 0.12.12
 BUILD_LOCAL_DIR    := .build
+OS                 := $(shell uname)
 
 # 
 # Common Repositry Activities
@@ -14,6 +15,15 @@ info:
 	&& pipenv run python --version
 
 install:
+ifeq (${OS},Linux)
+	@make -s install_ubuntu
+else ifeq (${OS},Darwin)
+	@make -s install_apple
+else
+	echo ${OS} is an unsupported Operating System
+endif
+
+install_ubuntu:
 	@make -s python_package_manager \
 	&& mkdir -p ${BUILD_LOCAL_DIR} \
 	&& make -s clean \
@@ -25,7 +35,7 @@ install_apple:
 	&& brew install pipenv \
 	&& mkdir -p ${BUILD_LOCAL_DIR} \
 	&& make -s clean \
-	&& pipenv install --dev --skip-lock \
+	&& pipenv install --dev \
 	&& pipenv run python --version
 
 lint:
@@ -73,8 +83,7 @@ prepare_zip_container:
 	done
 
 clean:
-	@find ${BUILD_LOCAL_DIR}/ \! -name 'terraform' -delete ;\
-	find . -name '__pycache__' -exec rm -rf "{}" \; > /dev/null 2>&1 ;
+	@find . -name '.pytest_cache' -exec rm -rf "{}" \; > /dev/null 2>&1
 
 python_package_manager:
 	@echo "installing pipenv"
