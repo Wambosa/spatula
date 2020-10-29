@@ -1,12 +1,15 @@
-'''
+"""
   Some mock I/O responses.
-'''
+"""
+
 
 def csv(_):
-  return True
+    return True
+
 
 def json():
-  pass
+    pass
+
 
 def yml():
-  pass
+    pass

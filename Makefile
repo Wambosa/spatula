@@ -1,27 +1,46 @@
-.PHONY: install lint test build deploy shim run prepare_zip prepare_zip_container find_distinct_concept terraform clean python_package_manager
+.PHONY: info install install_ubuntu install_apple lint test build deploy shim run prepare_zip prepare_zip_container find_distinct_concept clean python_package_manager
 
 PROJECT            := spatula
 PREFIX             := spat
 EXT                := py
 TF_VER             := 0.12.12
 BUILD_LOCAL_DIR    := .build
+OS                 := $(shell uname)
 
 # 
 # Common Repositry Activities
 # 
+info:
+	@pipenv graph \
+	&& pipenv run python --version
 
 install:
-	@make -s terraform \
-	&& make -s python_package_manager \
+ifeq (${OS},Linux)
+	@make -s install_ubuntu
+else ifeq (${OS},Darwin)
+	@make -s install_apple
+else
+	echo ${OS} is an unsupported Operating System
+endif
+
+install_ubuntu:
+	@make -s python_package_manager \
+	&& mkdir -p ${BUILD_LOCAL_DIR} \
+	&& make -s clean \
+	&& pipenv install --dev \
+	&& pipenv run python --version
+
+install_apple:
+	@brew install pyenv \
+	&& brew install pipenv \
+	&& mkdir -p ${BUILD_LOCAL_DIR} \
 	&& make -s clean \
 	&& pipenv install --dev \
 	&& pipenv run python --version
 
 lint:
 	@make --no-print-directory prepare_zip_container \
-	&& pipenv run pylint --rcfile=config/pylintrc ./${BUILD_LOCAL_DIR}/**/*.py \
-	&& ${BUILD_LOCAL_DIR}/terraform fmt -recursive \
-	&& ${BUILD_LOCAL_DIR}/terraform validate
+	&& pipenv run pylint --rcfile=config/pylintrc ./${BUILD_LOCAL_DIR}/**/*.py
 
 test:
 	@pipenv run pytest --disable-pytest-warnings -vv
@@ -57,27 +76,14 @@ prepare_zip:
 	&& test -f ./config/${NAME}.yml && cp ./config/${NAME}.yml ${BUILD_DIR}/${NAME}/const.yml || echo ;\
 
 prepare_zip_container:
-	@CONTAINERS="$(shell make -s find_distinct_concept CONCEPT_PATH=./src/func)" \
+	@CONTAINERS="scrape" \
 	&& echo "zipping detected containers: $$CONTAINERS" ;\
 	for name in $$CONTAINERS ; do \
 		make -s prepare_zip NAME=$$name WRAPPER=local_wrapper.${EXT} BUILD_DIR=${BUILD_LOCAL_DIR} ;\
 	done
 
-find_distinct_concept:
-	@echo "$(shell ls -I "terraform" -I "__pycache__" -I "__init__.tf" -I "vars.tf" ${CONCEPT_PATH} -1 | sed -e 's/\..*$$//')"
-
-terraform:
-	@echo "installing terraform ${TF_VER}"
-	wget https://releases.hashicorp.com/terraform/${TF_VER}/terraform_${TF_VER}_linux_amd64.zip > /dev/null 2>&1 \
-	&& unzip ./terraform_${TF_VER}_linux_amd64.zip -d . \
-	&& rm -f ./terraform_${TF_VER}_linux_amd64.zip \
-	&& chmod +x ./terraform \
-	&& mkdir -p ${BUILD_LOCAL_DIR} \
-	&& mv ./terraform ${BUILD_LOCAL_DIR}/terraform
-
 clean:
-	@find ${BUILD_LOCAL_DIR}/* \! -name 'terraform' -delete ;\
-	find . -name '__pycache__' -exec rm -rf "{}" \; > /dev/null 2>&1 ;
+	@find . -name '.pytest_cache' -exec rm -rf "{}" \; > /dev/null 2>&1
 
 python_package_manager:
 	@echo "installing pipenv"
