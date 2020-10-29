@@ -28,7 +28,7 @@ An example will be provided that utilizes a complex dependency (database), but i
 - Ubuntu 18.x
   - _Tested on Mojave 10.14.2 as well_
 - pipenv
-  - _the apple install command will also install pyenv_
+  - _the apple install sequence will also install pyenv_
 - docker _(optional)_
 - docker-compose _(optional)_
 
@@ -64,8 +64,28 @@ Calling `make run` will rebuild the `FUNC` script in the `.build/` directory,
 and execute the `main.py` with any provided run arguments.
 _(This is done in preparation of a deployment strategy where this code may be reused homogeneously as a lambda, docker container, or local script as seen here.)_
 
+
+### Chunked unit of work example
+_This one expresses a configuration to chunk all/some targets;
+although I would prefer a seperate function (scout) discover the targets and create events "for-each-viable" in order to properly isolate concerns.
+This example command also omits database interaction so that the command and setup is lighter.
+docker-compose is **not required** for this variant of the command._
+
+![c4 context](./docs/demo2.gif)
+
+```
+make run FUNC=scrape RUN_ARGS=' \
+--skip_db \
+--targets="[\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=15\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=30\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=45\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=60\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=75\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=90\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=105\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=120\"]" \
+--target_shape=php_bb \
+--target_protocol=html \
+--out_file=../../thread.csv
+'
+```
+
+
 ### Single unit of work example
-_Note that this command requires a database to be up.
+_Note that this command **requires a database to be up**.
 Sane parameters are already specified below.
 `make shim` stands up the complex dependencies for you.
 If you wish for just the code-challenge minimum requirements,
@@ -83,26 +103,6 @@ make run FUNC=scrape RUN_ARGS=' \
 --db_user=root \
 --db_pass=password \
 --targets="[\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591\"]" \
---target_shape=php_bb \
---target_protocol=html \
---out_file=../../thread.csv
-'
-```
-
-
-
-### Chunked unit of work example
-_This one expresses a configuration to chunk all/some targets;
-although I would prefer a seperate function (scout) discover the targets and create events "for-each-viable" in order to properly isolate concerns.
-This example command also omits database interaction so that the command and setup is lighter.
-docker-compose is **not required** for this variant of the command._
-
-![c4 context](./docs/demo2.gif)
-
-```
-make run FUNC=scrape RUN_ARGS=' \
---skip_db \
---targets="[\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=15\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=30\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=45\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=60\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=75\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=90\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=105\",\"https://www.oldclassiccar.co.uk/forum/phpbb/phpBB2/viewtopic.php?t=12591&postdays=0&postorder=asc&start=120\"]" \
 --target_shape=php_bb \
 --target_protocol=html \
 --out_file=../../thread.csv
