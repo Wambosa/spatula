@@ -105,7 +105,7 @@ _Note that this command **requires a database to be up**.
 Sane parameters are already specified below.
 `make shim` stands up the complex dependencies for you.
 If you wish for just the code-challenge minimum requirements,
-see the next example ["Chunked unit of work example"](#chunked-unit-of-work-example-scenario-1)._
+see the example ["Chunked unit of work example"](#chunked-unit-of-work-example-scenario-1)._
 
 ![c4 context](./docs/demo.gif)
 
@@ -114,7 +114,7 @@ see the next example ["Chunked unit of work example"](#chunked-unit-of-work-exam
 make shim
 ```
 
-`terminal B
+`terminal B`
 ```
 make run FUNC=scrape RUN_ARGS=' \
 --raw_bucket=raw-data \
