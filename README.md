@@ -159,23 +159,6 @@ The builds and deploys can be triggered by events specified by the team _(on pus
 
 
 
----------------------------
-### Dependency Install Tips
-_For the purposes of the code-challenge, I have created a swift set of commands to get this up and running on an ubuntu 18 machine.
-Apple and/or windows support is not available at this time (though it may possibly work on apple's bash out of the box)._
-
-docker-compose
-```
-sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose \
-&& sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose \
-&& sudo chmod +x /usr/bin/docker-compose
-
-make install
-make shim
-```
-
-
-
 ----------
 ### Future
 _given more time_
