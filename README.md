@@ -20,7 +20,7 @@ _The high level view of this system._
 ![c4 context](./docs/c4-context.svg)
 
 ### Container
-_We've zoomed into the dark blue "Spatula" box._
+_We've zoomed into the dark blue "Spatula" box from the previous "context" diagram._
 ![c4 container](./docs/c4-container.svg)
 
 ### Container _(Scoped)_
@@ -59,22 +59,23 @@ make lint
 
 
 ## Running Local
-_install+shim will establish all dependencies for local runs._
+_There are two scenarios for local runs._  
+_Scenario 1: Simple file export_  
+_Scenario 2: Complex dependency requirements_  
 
-Before running locally, ensure that the proper system requirements are met.
-Then,
-```
-make install
-make test
-make shim
-```
-
+In general, 
 Calling `make run` will rebuild the `FUNC` script in the `.build/` directory, 
 and execute the `main.py` with any provided run arguments.
 _(This is done in preparation of a deployment strategy where this code may be reused homogeneously as a lambda, docker container, or local script as seen here.)_
 
+Before running locally, ensure that the proper system requirements are met.
+```
+make install
+make test
+```
 
-### Chunked unit of work example
+
+### Chunked unit of work example _(Scenario 1)_
 _This one expresses a configuration to chunk all/some targets;
 although I would prefer a seperate function (scout) discover the targets and create events "for-each-viable" in order to properly isolate concerns.
 This example command also omits database interaction so that the command and setup is lighter.
@@ -93,15 +94,21 @@ make run FUNC=scrape RUN_ARGS=' \
 ```
 
 
-### Single unit of work example
+### Single unit of work example _(Scenario 2)_
 _Note that this command **requires a database to be up**.
 Sane parameters are already specified below.
 `make shim` stands up the complex dependencies for you.
 If you wish for just the code-challenge minimum requirements,
-see the next example ["Chunked unit of work example"](#chunked-unit-of-work-example)._
+see the next example ["Chunked unit of work example"](#chunked-unit-of-work-example-scenario-1)._
 
 ![c4 context](./docs/demo.gif)
 
+`terminal A`
+```
+make shim
+```
+
+`terminal B
 ```
 make run FUNC=scrape RUN_ARGS=' \
 --raw_bucket=raw-data \
