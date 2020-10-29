@@ -7,14 +7,14 @@ verify_ssl = true
 python_version = "3.7"
 
 [packages]
-arrow = "*"
+arrow = "0.17.0"
 python-box = "3.2.4"
 pymysql= "0.9.3"
 pyyaml = "5.1"
-simplejson = "*"
+simplejson = "3.17.2"
 configargparse = "0.14.0"
-requests = "*"
-beautifulsoup4 = "*"
+requests = "2.24.0"
+beautifulsoup4 = "4.9.3"
 
 [dev-packages]
 pytest = "5.2.1"

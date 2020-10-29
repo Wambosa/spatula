@@ -21,7 +21,7 @@ _A scraping system. Named by Lori Diaz whilst watching Great British Bake-off._
 
 ## System Requirements
 _Since this code challenge is scoped down, 
-docker and awscli represent a method of complex local dependency mocking.
+docker and localstack represent a method of complex local dependency mocking.
 These are especially useful for localized integration testing.
 An example will be provided that utilizes a complex dependency (database), but is not required._
 
@@ -29,7 +29,22 @@ An example will be provided that utilizes a complex dependency (database), but i
 - pipenv
 - docker _(optional)_
 - docker-compose _(optional)_
-- ~~awscli~~ _(optional)_
+
+#### Don't like Ubuntu?
+_Though its terribly cost effective to run on ubuntu, here is an alternative command to run on your $Nk apple locally :p_  
+_Tested on Mojave 10.14.2_
+
+```
+make install_apple
+```
+
+#### Love Windows or RedHat for development?
+_See Story 123 Sprint N for implementation_
+
+_future command_
+```
+make pain
+```
 
 
 ## Unit Test Overview
