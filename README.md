@@ -1,5 +1,5 @@
 # Spatula
-_A scraping system. Named by Lori Diaz whilst watching Great British Bake-off._
+_A scraping system. Named by my wife whilst watching Great British Bake-off._
 
 # Table of Contents
 
